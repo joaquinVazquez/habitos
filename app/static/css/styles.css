@@ -1,0 +1,477 @@
+:root {
+  --evergreen: #063832;
+  --pine-teal: #22514B;
+  --muted-teal: #78AAA2;
+  --pearl-aqua: #92DECF;
+  --evergreen-2: #122F2B;
+
+  --bg: var(--evergreen-2);
+  --surface: var(--pine-teal);
+  --text-primary: var(--pearl-aqua);
+  --text-secondary: var(--muted-teal);
+  --accent: var(--pearl-aqua);
+
+  --font-display: "Sora", sans-serif;
+  --font-body: "Inter", sans-serif;
+
+  --radius: 16px;
+  --transition-base: 180ms ease;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  margin: 0 0 0.5rem 0;
+}
+
+.topbar {
+  padding: 1.25rem 1.5rem;
+  background: var(--evergreen);
+  border-bottom: 1px solid rgba(146, 222, 207, 0.15);
+}
+
+.topbar__brand {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: var(--pearl-aqua);
+}
+
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.placeholder {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 2rem;
+  color: var(--text-primary);
+}
+
+.placeholder p {
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+/* --- Fase 2: header, grid de tarjetas, botones, modal --- */
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.btn {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.9rem;
+  border: none;
+  border-radius: 10px;
+  padding: 0.65rem 1.1rem;
+  cursor: pointer;
+  transition: transform var(--transition-base), opacity var(--transition-base);
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn--primary {
+  background: var(--pearl-aqua);
+  color: var(--evergreen-2);
+}
+
+.btn--primary:hover {
+  opacity: 0.9;
+}
+
+.btn--ghost {
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid rgba(146, 222, 207, 0.3);
+}
+
+.habitos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+.empty-state {
+  color: var(--text-secondary);
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 2rem 1rem;
+}
+
+.card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  animation: card-enter 220ms ease;
+  border: 1px solid rgba(146, 222, 207, 0.08);
+}
+
+@keyframes card-enter {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.card__title {
+  font-size: 1.05rem;
+  color: var(--pearl-aqua);
+}
+
+.card__delete {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+  padding: 0.2rem 0.4rem;
+  border-radius: 6px;
+  transition: background var(--transition-base), color var(--transition-base);
+}
+
+.card__delete:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: #ff8a8a;
+}
+
+.card__desc {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  margin: 0.5rem 0 0.75rem;
+}
+
+.card__racha {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  margin: 0.75rem 0;
+}
+
+.racha__icon {
+  font-size: 1.4rem;
+}
+
+.racha__count {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.6rem;
+  color: var(--pearl-aqua);
+}
+
+.racha__label {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.card__dias {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+}
+
+.form-error {
+  grid-column: 1 / -1;
+  color: #ff8a8a;
+  font-size: 0.85rem;
+}
+
+/* Modal */
+.modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+}
+
+.modal.is-open {
+  display: flex;
+}
+
+.modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(6, 56, 50, 0.6);
+  backdrop-filter: blur(2px);
+}
+
+.modal__panel {
+  position: relative;
+  background: var(--evergreen);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  width: 100%;
+  max-width: 420px;
+  margin: 1rem;
+  animation: modal-enter 180ms ease;
+}
+
+@keyframes modal-enter {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.modal__panel label {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin: 0.75rem 0 0.25rem;
+}
+
+.modal__panel input,
+.modal__panel textarea {
+  width: 100%;
+  background: var(--evergreen-2);
+  border: 1px solid rgba(146, 222, 207, 0.2);
+  border-radius: 8px;
+  padding: 0.6rem 0.7rem;
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+}
+
+.modal__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 1.25rem;
+}
+
+/* --- Fase 3: racha real + indicador de 7 días + botón cumplir --- */
+
+.card__racha--activa .racha__count {
+  text-shadow: 0 0 14px rgba(146, 222, 207, 0.55);
+}
+
+.card__dias {
+  display: flex;
+  gap: 6px;
+  margin: 0.75rem 0 1rem;
+}
+
+.dia-indicador {
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  background: rgba(146, 222, 207, 0.1);
+  border: 1px solid rgba(146, 222, 207, 0.15);
+  transition: background var(--transition-base), transform var(--transition-base);
+}
+
+.dia-indicador--activo {
+  background: var(--pearl-aqua);
+  border-color: var(--pearl-aqua);
+}
+
+.dia-indicador--hoy {
+  box-shadow: 0 0 0 2px var(--muted-teal);
+}
+
+.card__cta {
+  width: 100%;
+  margin-top: 0.25rem;
+}
+
+.btn--done {
+  background: var(--muted-teal);
+  color: var(--evergreen-2);
+  cursor: default;
+  opacity: 0.85;
+}
+
+/* --- Modal de confirmación de eliminar --- */
+
+.modal__mensaje {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin: 0.75rem 0 0;
+}
+
+.modal__mensaje strong {
+  color: var(--pearl-aqua);
+}
+
+.btn--danger {
+  background: #ff6b6b;
+  color: #1a1a1a;
+}
+
+.btn--danger:hover {
+  opacity: 0.9;
+}
+
+/* --- Botón editar --- */
+
+.card__header-actions {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.card__edit {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: 0.95rem;
+  line-height: 1;
+  padding: 0.2rem 0.4rem;
+  border-radius: 6px;
+  transition: background var(--transition-base), color var(--transition-base);
+}
+
+.card__edit:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--pearl-aqua);
+}
+
+#editar-error .form-error {
+  margin-top: 0.5rem;
+}
+
+/* --- Pulido visual final --- */
+
+/* Hover sutil en tarjetas: se sienten interactivas, no planas */
+.card {
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+
+/* Entrada escalonada: cada tarjeta aparece un poco después que la anterior */
+.habitos-grid .card {
+  animation: card-enter 260ms ease both;
+}
+
+.habitos-grid .card:nth-child(1) { animation-delay: 0ms; }
+.habitos-grid .card:nth-child(2) { animation-delay: 40ms; }
+.habitos-grid .card:nth-child(3) { animation-delay: 80ms; }
+.habitos-grid .card:nth-child(4) { animation-delay: 120ms; }
+.habitos-grid .card:nth-child(5) { animation-delay: 160ms; }
+.habitos-grid .card:nth-child(n+6) { animation-delay: 200ms; }
+
+/* Pulso en el número de racha cuando hay racha activa: es "el elemento
+   que se debe sentir", como pidió el fundador */
+.card__racha--activa .racha__count {
+  animation: racha-pulso 1.8s ease-in-out infinite;
+}
+
+@keyframes racha-pulso {
+  0%, 100% { text-shadow: 0 0 10px rgba(146, 222, 207, 0.4); }
+  50% { text-shadow: 0 0 20px rgba(146, 222, 207, 0.8); }
+}
+
+/* Indicadores de día: pequeño "pop" cuando se marcan como cumplidos */
+.dia-indicador--activo {
+  animation: dia-pop 320ms ease;
+}
+
+@keyframes dia-pop {
+  0% { transform: scale(0.7); }
+  60% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+
+/* Botón "Marcar cumplido hoy": pequeño brillo al pasar el cursor */
+.btn--primary {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn--primary:hover {
+  box-shadow: 0 0 16px rgba(146, 222, 207, 0.5);
+}
+
+.card__record {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  margin: 0 0 0.75rem;
+}
+
+/* --- Barra de resumen general --- */
+
+.resumen-general {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.resumen-item {
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 0.85rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  flex: 1;
+  min-width: 140px;
+}
+
+.resumen-item--destacado {
+  background: var(--pine-teal);
+  box-shadow: 0 0 0 1px rgba(146, 222, 207, 0.25) inset;
+}
+
+.resumen-valor {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.4rem;
+  color: var(--pearl-aqua);
+}
+
+.resumen-label {
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+}
+
+@media (max-width: 480px) {
+  .resumen-general {
+    gap: 0.6rem;
+  }
+  .resumen-item {
+    padding: 0.65rem 0.9rem;
+    min-width: 100px;
+  }
+}
+
+/* Responsive: en celular reducimos el padding del contenedor */
+@media (max-width: 480px) {
+  .container {
+    padding: 1rem;
+  }
+  .placeholder {
+    padding: 1.25rem;
+  }
+}

@@ -1,0 +1,56 @@
+<article class="card" id="habito-{{ resumen.id }}">
+  <div class="card__header">
+  <h3 class="card__title">{{ resumen.nombre }}</h3>
+  <div class="card__header-actions">
+    <button
+      class="card__edit"
+      data-habito-id="{{ resumen.id }}"
+      data-habito-nombre="{{ resumen.nombre }}"
+      data-habito-descripcion="{{ resumen.descripcion or '' }}"
+      onclick="abrirEdicionHabito(this)"
+      aria-label="Editar hábito"
+    >✎</button>
+
+    <button
+      class="card__delete"
+      data-habito-id="{{ resumen.id }}"
+      data-habito-nombre="{{ resumen.nombre }}"
+      onclick="abrirConfirmacionEliminar(this)"
+      aria-label="Eliminar hábito"
+    >✕</button>
+  </div>
+</div>
+
+  {% if resumen.descripcion %}
+    <p class="card__desc">{{ resumen.descripcion }}</p>
+  {% endif %}
+
+  <div class="card__racha {% if resumen.racha > 0 %}card__racha--activa{% endif %}">
+    <span class="racha__icon">🔥</span>
+    <span class="racha__count">{{ resumen.racha }}</span>
+    <span class="racha__label">{{ "día" if resumen.racha == 1 else "días" }} seguidos</span>
+  </div>
+
+  {% if resumen.racha_maxima > resumen.racha %}
+  <p class="card__record">🏆 Mejor racha: {{ resumen.racha_maxima }} {{ "día" if resumen.racha_maxima == 1 else "días" }}</p>
+  {% endif %}
+
+  <div class="card__dias">
+    {% for dia in resumen.dias %}
+      <span
+        class="dia-indicador {% if dia.cumplido %}dia-indicador--activo{% endif %} {% if dia.es_hoy %}dia-indicador--hoy{% endif %}"
+        title="{{ dia.fecha.strftime('%d/%m') }}"
+      ></span>
+    {% endfor %}
+  </div>
+
+  <button
+    class="btn card__cta {% if resumen.cumplido_hoy %}btn--done{% else %}btn--primary{% endif %}"
+    hx-post="{{ url_for('habitos.marcar_cumplido', habito_id=resumen.id) }}"
+    hx-target="#habito-{{ resumen.id }}"
+    hx-swap="outerHTML"
+    {% if resumen.cumplido_hoy %}disabled{% endif %}
+  >
+    {% if resumen.cumplido_hoy %}✓ Cumplido hoy{% else %}Marcar cumplido hoy{% endif %}
+  </button>
+</article>

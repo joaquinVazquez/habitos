@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block title %}Racha — Mis hábitos{% endblock %}
+
+{% block content %}
+  <div class="page-header">
+    <h1>Mis hábitos</h1>
+    <button
+      type="button"
+      class="btn btn--primary"
+      onclick="document.getElementById('modal-crear').classList.add('is-open')"
+    >
+      + Nuevo hábito
+    </button>
+  </div>
+
+  {% include "partials/resumen_general.html" %}
+  <div id="habitos-lista" class="habitos-grid">
+    
+    {% for resumen in resumenes %}
+      {% include "partials/habito_card.html" %}
+    {% endfor %}
+    {% if not resumenes %}
+      <p class="empty-state" id="empty-state">
+        Aún no tienes hábitos. Crea el primero para empezar tu racha.
+      </p>
+    {% endif %}
+  </div>
+
+  <div id="modal-crear" class="modal">
+    <div
+      class="modal__backdrop"
+      onclick="document.getElementById('modal-crear').classList.remove('is-open')"
+    ></div>
+    <div class="modal__panel">
+      <h2>Nuevo hábito</h2>
+      <form
+        hx-post="{{ url_for('habitos.crear_habito') }}"
+        hx-target="#habitos-lista"
+        hx-swap="afterbegin"
+        hx-on::after-request="if(event.detail.successful) { this.reset(); document.getElementById('empty-state')?.remove(); document.getElementById('modal-crear').classList.remove('is-open'); }"
+      >
+        <label for="nombre">Nombre</label>
+        <input type="text" id="nombre" name="nombre" placeholder="Ej. Leer 20 minutos" required maxlength="120">
+
+        <label for="descripcion">Descripción (opcional)</label>
+        <textarea id="descripcion" name="descripcion" rows="2" maxlength="300"></textarea>
+
+        <div class="modal__actions">
+          <button
+            type="button"
+            class="btn btn--ghost"
+            onclick="document.getElementById('modal-crear').classList.remove('is-open')"
+          >
+            Cancelar
+          </button>
+          <button type="submit" class="btn btn--primary">Crear hábito</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="modal-eliminar" class="modal">
+  <div class="modal__backdrop" onclick="cerrarConfirmacionEliminar()"></div>
+  <div class="modal__panel modal__panel--danger">
+    <h2>Eliminar hábito</h2>
+    <p class="modal__mensaje">
+      ¿Seguro que quieres eliminar <strong id="modal-eliminar-nombre"></strong>?
+      Se borrará también todo su historial de días cumplidos. Esta acción no se puede deshacer.
+    </p>
+    <div class="modal__actions">
+      <button type="button" class="btn btn--ghost" onclick="cerrarConfirmacionEliminar()">Cancelar</button>
+      <button type="button" class="btn btn--danger" id="btn-confirmar-eliminar">Sí, eliminar</button>
+    </div>
+  </div>
+</div>
+
+<div id="modal-editar" class="modal">
+  <div class="modal__backdrop" onclick="cerrarEdicionHabito()"></div>
+  <div class="modal__panel">
+    <h2>Editar hábito</h2>
+    <form id="form-editar">
+      <label for="editar-nombre">Nombre</label>
+      <input type="text" id="editar-nombre" name="nombre" required maxlength="120">
+
+      <label for="editar-descripcion">Descripción (opcional)</label>
+      <textarea id="editar-descripcion" name="descripcion" rows="2" maxlength="300"></textarea>
+
+      <div id="editar-error"></div>
+
+      <div class="modal__actions">
+        <button type="button" class="btn btn--ghost" onclick="cerrarEdicionHabito()">Cancelar</button>
+        <button type="submit" class="btn btn--primary">Guardar cambios</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

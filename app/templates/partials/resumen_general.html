@@ -1,0 +1,14 @@
+<div id="resumen-general" class="resumen-general" hx-swap-oob="true">
+  <div class="resumen-item">
+    <span class="resumen-valor">{{ resumen_general.total_habitos }}</span>
+    <span class="resumen-label">{{ "hábito" if resumen_general.total_habitos == 1 else "hábitos" }}</span>
+  </div>
+  <div class="resumen-item resumen-item--destacado">
+    <span class="resumen-valor">🔥 {{ resumen_general.racha_mas_alta }}</span>
+    <span class="resumen-label">racha más alta activa</span>
+  </div>
+  <div class="resumen-item">
+    <span class="resumen-valor">{{ resumen_general.cumplidos_hoy }}/{{ resumen_general.total_habitos }}</span>
+    <span class="resumen-label">cumplidos hoy</span>
+  </div>
+</div>
