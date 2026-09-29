@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, request
+from app.services.ai_service import generar_mensaje_motivacional
 
 from app.extensions import db
 from app.models import Habito, Registro
@@ -92,3 +93,8 @@ def marcar_cumplido(habito_id):
 
     tarjeta = render_template("partials/habito_card.html", resumen=resumen_habito(habito))
     return tarjeta + _barra_resumen_actualizada()
+
+@habitos_bp.route("/habitos/<int:habito_id>/mensaje", methods=["POST"])
+def generar_mensaje(habito_id):
+    habito = Habito.query.get_or_404(habito_id)
+    return generar_mensaje_motivacional(resumen_habito(habito))

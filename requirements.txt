@@ -6,3 +6,4 @@ python-dotenv==1.0.1
 gunicorn==22.0.0
 pytz==2024.1
 tzdata==2024.1
+langchain-openai==0.2.9
