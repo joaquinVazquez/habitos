@@ -1,6 +1,6 @@
 from langchain_openai import ChatOpenAI
 
-llm = ChatOpenAI(model="gpt-5.6-luna")
+llm = ChatOpenAI(model="gpt-5.6-luna", temperature=1)
 
 
 def generar_mensaje_motivacional(resumen: dict) -> str:
