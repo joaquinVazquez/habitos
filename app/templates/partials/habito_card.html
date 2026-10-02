@@ -20,12 +20,17 @@
     >✕</button>
 
     <button
-    class="btn btn--ai"
-    hx-post="/habitos/{{ resumen.id }}/mensaje"
-    hx-target="#mensaje-{{ resumen.id }}"
-    hx-swap="innerHTML"
+      class="btn btn--ai"
+      hx-post="{{ url_for('habitos.generar_mensaje', habito_id=resumen.id) }}"
+      hx-swap="none"
+      hx-on::after-request="
+        if(event.detail.successful) {
+          mostrarToast(event.detail.xhr.responseText);
+        } else {
+          mostrarToast('No se pudo generar el mensaje. Intenta de nuevo.', true);
+        }
+      "
     >✨ Generar mensaje</button>
-  <p id="mensaje-{{ resumen.id }}" class="card__mensaje-ia"></p>
   </div>
 </div>
 

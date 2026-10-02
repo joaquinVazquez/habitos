@@ -77,3 +77,22 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+
+// --- Toast flotante para el mensaje motivacional de IA ---
+function mostrarToast(mensaje, esError = false) {
+  const contenedor = document.getElementById("toast-container");
+
+  const toast = document.createElement("div");
+  toast.className = "toast" + (esError ? " toast--error" : "");
+  toast.textContent = mensaje;
+  contenedor.appendChild(toast);
+
+  // requestAnimationFrame asegura que el navegador pinte el estado inicial
+  // antes de añadir la clase que dispara la transición de entrada.
+  requestAnimationFrame(() => toast.classList.add("toast--visible"));
+
+  setTimeout(() => {
+    toast.classList.remove("toast--visible");
+    toast.addEventListener("transitionend", () => toast.remove(), { once: true });
+  }, 8000);
+}

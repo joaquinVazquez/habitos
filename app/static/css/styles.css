@@ -475,3 +475,55 @@ h1, h2, h3 {
     padding: 1.25rem;
   }
 }
+
+/* --- Toast flotante (mensaje motivacional de IA) --- */
+
+#toast-container {
+  position: fixed;
+  bottom: 1.25rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
+  z-index: 100;
+  pointer-events: none;
+  width: 100%;
+  padding: 0 1rem;
+}
+
+.toast {
+  background: var(--pine-teal);
+  color: var(--pearl-aqua);
+  border: 1px solid rgba(146, 222, 207, 0.3);
+  border-radius: 10px;
+  padding: 0.75rem 1.25rem;
+  font-size: 0.85rem;
+  max-width: 360px;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 220ms ease, transform 220ms ease;
+}
+
+.toast--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.toast--error {
+  background: #4a1f1f;
+  color: #ffb3b3;
+  border-color: rgba(255, 138, 138, 0.3);
+}
+
+@media (max-width: 480px) {
+  #toast-container {
+    bottom: 0.75rem;
+  }
+  .toast {
+    max-width: 90%;
+  }
+}
